@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "type": "email",
+        "dependencies": [],
+        "logic": "() => { console.log('Email Sent: Initial Notification'); }",
+        "retry_limit": 2
+    },
+    {
+        "id": 2,
+        "type": "update_grant",
+        "dependencies": [],
+        "logic": "() => { console.log('Grant Updated: Step 1'); }",
+        "retry_limit": 2
+    },
+    {
+        "id": 4,
+        "type": "update_grant",
+        "dependencies": [1, 2],
+        "logic": "() => { console.log('Grant Updated: After Email and Step 1'); }",
+        "retry_limit": 1
+    },
+    {
+        "id": 3,
+        "type": "email",
+        "dependencies": [4],
+        "logic": "() => { console.log('Email Sent: Final Confirmation'); }",
+        "retry_limit": 1
+    },
+
+    {
+        "id": 5,
+        "type": "email",
+        "dependencies": [],
+        "logic": "() => { console.log('Email Sent: Initial Notification (Failure Sequence)'); }",
+        "retry_limit": 1
+    },
+
+
+    {
+        "id": 6,
+        "type": "update_grant",
+        "dependencies": [],
+        "logic": "() => { console.log('Grant Updated: Step 1 for (Failure Sequence)'); }",
+        "retry_limit": 1
+    },
+    {
+        "id": 7,
+        "type": "update_grant",
+        "dependencies": [5, 6],
+        "logic": "() => { console.log('Grant Updated: After Email and Step 1 (Failure Sequence)'); throw new Error('Step 7 Failed'); }",
+        "retry_limit": 2
+    },
+    {
+        "id": 8,
+        "type": "email",
+        "dependencies": [7],
+        "logic": "() => { console.log('Email Sent: Final Confirmation (Failure Sequence)'); }",
+        "retry_limit": 1
+    },
+    {
+        "id": 9,
+        "type": "update_grant",
+        "dependencies": [8],
+        "logic": "() => { console.log('Grant Updated: After Final Email (Failure Sequence)'); throw new Error('Step 9 Failed'); }",
+        "retry_limit": 1
+    }
+]
