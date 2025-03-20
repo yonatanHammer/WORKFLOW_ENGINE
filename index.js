@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Step = require('./src/step');
-const WorkFlowEngine = require('./src/engine');
+const WorkFlowEngine = require('./src/WorkFlowEngine');
 
 
 async function loadSteps(file_path) {
